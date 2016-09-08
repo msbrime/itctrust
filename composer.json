@@ -1,5 +1,5 @@
 {
-    "name": "itc/itctrust",
+    "name": "msbrime/itctrust",
     "description": "This package builds on laratrusts flexible role based package and provides permission sets and mandates",
     "keywords": ["laravel","illuminate","auth","roles","acl", "rbac","permission"],
     "license": "MIT",
