@@ -88,36 +88,33 @@ trait ItctrustMandateTrait
      *
      * @return bool
      */
-    public function hasPermission($name, $requireAll = false)
+    public function hasPermission($name, $requireAll = false, $returnAsArray = false)
     {
 
-        $permitted = [];
+        if(!is_array($name)){
+            $name = [$name];
+        }
+
+        $availablePermissions = [];
 
         foreach($this->cachedPermissionSets() as $permissionSet){
 
-            $hasPermission = $permissionSet->hasPermission($name,true,true);
+            $isPermitted = $permissionSet->hasPermission($name,false,true);
 
-            if($hasPermission && $requireAll){
-               
-               if(is_array($hasPermission)){
-                    /**
-                     * array is returned if more than 1 permission is passed
-                     * so merge it with the permitted array
-                     */
-                    array_merge($permitted,$hasPermission);
-               } 
-               else{
-                 /**
-                  * If a boolean was returned then only one permission
-                  * was passed so return true
-                  */
-                 return true;
-               }
-            }
-            elseif($hasPermission && !$requireAll){
+            if($isPermitted && !$requireAll && !$returnAsArray){
                 return true;
             }
+
+            $availablePermissions = array_merge($availablePermissions,$isPermitted);
+
+            if(!array_diff($name,$availablePermissions)){
+                return ($returnAsArray) ? $availablePermissions : true;
+            }
+
         }
+        
+        return ($returnAsArray) ? $availablePermissions : (Boolean) !array_diff($name,$availablePermissions);
+    
     }
 
     /**

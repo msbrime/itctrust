@@ -3,9 +3,15 @@
 return [
     
     'role_structure' => [
-        'superadministrator' => ["full_access","data_entry","default"],
-        'administrator' => ["data_entry","default"],
+        'superadministrator' => ["full_access","user_access","default"],
+        'administrator' => ["user_access","default"],
         'user' => ["default"],
+    ],
+
+    'mandate_structure' => [
+
+        'administrator' => ["user_access"]
+
     ],
 
     'permission_set_structure' => [
@@ -14,7 +20,7 @@ return [
             'acl' => 'c,r,u,d',
             'profile' => 'r,u'
         ],
-        'data_entry' => [
+        'user_access' => [
             'users' => 'c,r,u,d',
             'profile' => 'r,u'
         ],
