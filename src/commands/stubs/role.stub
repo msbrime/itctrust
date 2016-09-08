@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use Itctrust\ItctrustRole;
+
+class DummyClass extends ItctrustRole
+{
+    //
+}
