@@ -38,10 +38,14 @@ class ItctrustAbility
      * @param bool $validateAll
      * @return mixed
      */
-    public function handle($request, Closure $next, $roles, $permissions, $validateAll = false)
+    public function handle($request, Closure $next, $roles, $mandates =[], $permissions =[], $validateAll = false)
     {
         if (!is_array($roles)) {
             $roles = explode(self::DELIMITER, $roles);
+        }
+
+        if (!is_array($mandates)) {
+            $mandates = explode(self::DELIMITER, $mandates);
         }
 
         if (!is_array($permissions)) {
@@ -53,7 +57,7 @@ class ItctrustAbility
         }
 
         if ($this->auth->guest() ||
-             !$request->user()->ability($roles, $permissions, [ 'validate_all' => $validateAll ])) {
+             !$request->user()->ability($roles,$mandates, $permissions, [ 'validate_all' => $validateAll ])) {
             return call_user_func(
                 Config::get('itctrust.middleware_handling', 'abort'),
                 Config::get('itctrust.middleware_params', '403')

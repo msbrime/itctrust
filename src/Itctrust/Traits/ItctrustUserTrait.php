@@ -244,11 +244,14 @@ trait ItctrustUserTrait
      *
      * @return array|bool
      */
-    public function ability($roles, $permissions, $options = [])
+    public function ability($roles, $mandates, $permissions, $options = [])
     {
         // Convert string to array if that's what is passed in.
         if (!is_array($roles)) {
             $roles = explode(',', $roles);
+        }
+        if (!is_array($mandates)) {
+            $mandates = explode(',', $mandates);
         }
         if (!is_array($permissions)) {
             $permissions = explode(',', $permissions);
@@ -273,10 +276,14 @@ trait ItctrustUserTrait
         }
 
         // Loop through roles and permissions and check each.
+        $checkedMandates = [];
         $checkedRoles = [];
         $checkedPermissions = [];
         foreach ($roles as $role) {
             $checkedRoles[$role] = $this->hasRole($role);
+        }
+        foreach ($mandates as $mandate) {
+            $checkedMandates[$mandate] = $this->hasMandate($mandate);
         }
         foreach ($permissions as $permission) {
             $checkedPermissions[$permission] = $this->can($permission);
@@ -285,8 +292,8 @@ trait ItctrustUserTrait
         // If validate all and there is a false in either
         // Check that if validate all, then there should not be any false.
         // Check that if not validate all, there must be at least one true.
-        if (($options['validate_all'] && !(in_array(false, $checkedRoles) || in_array(false, $checkedPermissions))) ||
-            (!$options['validate_all'] && (in_array(true, $checkedRoles) || in_array(true, $checkedPermissions)))) {
+        if (($options['validate_all'] && !(in_array(false, $checkedRoles) || in_array(false, $checkedPermissions) || in_array(false, $checkedMandates))) ||
+            (!$options['validate_all'] && (in_array(true, $checkedRoles) || in_array(true, $checkedPermissions) || in_array(true, $checkedMandates)))) {
             $validateAll = true;
         } else {
             $validateAll = false;
@@ -296,9 +303,9 @@ trait ItctrustUserTrait
         if ($options['return_type'] == 'boolean') {
             return $validateAll;
         } elseif ($options['return_type'] == 'array') {
-            return ['roles' => $checkedRoles, 'permissions' => $checkedPermissions];
+            return ['roles' => $checkedRoles,'mandates' => $checkedMandates, 'permissions' => $checkedPermissions];
         } else {
-            return [$validateAll, ['roles' => $checkedRoles, 'permissions' => $checkedPermissions]];
+            return [$validateAll, ['roles' => $checkedRoles,'mandates' => $checkedMandates, 'permissions' => $checkedPermissions]];
         }
     }
 
