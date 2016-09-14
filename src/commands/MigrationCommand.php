@@ -48,7 +48,7 @@ class MigrationCommand extends Command
         $rolesTable                   = Config::get('itctrust.roles_table');
         $roleUserTable                = Config::get('itctrust.role_user_table');
         $mandatesTable                = Config::get('itctrust.mandates_table');
-        $mandateUserTable             = Config::get('itctrust.mandate_user');
+        $mandateUserTable             = Config::get('itctrust.mandate_user_table');
         $permissionSetsTable          = Config::get('itctrust.permission_sets_table');
         $permissionSetRoleTable       = Config::get('itctrust.permission_set_role_table');
         $mandatePermissionSetTable    = Config::get('itctrust.mandate_permission_set_table');
@@ -125,6 +125,7 @@ class MigrationCommand extends Command
             'roleUserTable',
             'mandatesTable', 
             'mandateUserTable',
+            'mandatePermissionSetTable',
             'permissionsTable',
             'permissionSetsTable',
             'permissionSetRoleTable',

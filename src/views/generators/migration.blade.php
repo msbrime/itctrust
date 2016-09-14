@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class LaratrustSetupTables extends Migration
+class ItctrustSetupTables extends Migration
 {
     /**
      * Run the migrations.
@@ -47,8 +47,6 @@ class LaratrustSetupTables extends Migration
         Schema::create('{{ $mandateUserTable }}', function (Blueprint $table) {
             $table->integer('user_id')->unsigned();
             $table->integer('mandate_id')->unsigned();
-            $table->integer('mandate_id')->unsigned();
-
 
             $table->foreign('user_id')->references('{{ $userKeyName }}')->on('{{ $usersTable }}')
                 ->onUpdate('cascade')->onDelete('cascade');

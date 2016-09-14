@@ -92,9 +92,9 @@ class ItctrustSeeder extends Seeder
     public function truncateItctrustTables()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        DB::table('permission_permission_set')->truncate();
-        DB::table('permission_set_role')->truncate();
-        DB::table('role_user')->truncate();
+        DB::table(config('itctrust.permission_permission_set_table'))->truncate();
+        DB::table(config('itctrust.permission_set_role_table'))->truncate();
+        DB::table(config('itctrust.role_user_table'))->truncate();
         \App\User::truncate();
         \App\Role::truncate();
         \App\PermissionSet::truncate();
